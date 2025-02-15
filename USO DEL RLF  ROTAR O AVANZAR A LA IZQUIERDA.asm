@@ -1,0 +1,34 @@
+;Autor: Calle Condori Rodrigo
+;EL MNEMONICO RLF TIENE LA MISMA FUNCION QUE LA RRF SOLO QUE ESTA VEZ
+;RECORRE LOS BITS AL LADO IZQUIERDO.
+;SI 50 = 0011 0010 APLICANDO RLF 100 = 0110 0100
+;EL RESULTADO EN DECIMAL SE PUEDE VER QUE SIEMPRE SE ESTA MULTIPLICANDO
+;POR 2
+	LIST P=16F877A
+	INCLUDE <P16F877A.INC>
+
+	DATO1   EQU   0X20
+        DATO2  EQU   0X21
+
+        ORG    0X00
+        GOTO   INICIO
+
+INICIO:
+        MOVLW  D'50'
+        MOVWF  DATO1
+ciclo
+        BTFSS  STATUS,C
+        GOTO   byte_1
+        GOTO   byte_2
+byte_1
+        RLF    DATO1,W
+        MOVWF  DATO1
+        MOVWF  DATO2
+        GOTO   ciclo
+byte_2
+        RLF    DATO2,W
+        movwf  DATO1
+        MOVWF  DATO2
+        GOTO   ciclo
+
+        END
